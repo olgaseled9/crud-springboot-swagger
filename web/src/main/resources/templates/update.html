@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update user</title>
+    <link th:href="@{/bootstrap.css}" rel="stylesheet">
+</head>
+<body>
+<!--/*@thymesVar id="userDto" type="by.seledtsovaos.swagger.dto.UserDto"*/-->
+<form action="#" class="container" th:action="@{/users/update}" th:object="${userDto}" method="post">
+    <h1>Edit user</h1>
+    <div>
+        <input type="hidden" th:field="*{id}">
+    </div>
+    <div>
+        <label for="firstname" class="form-label">Enter firstname:</label>
+        <input type="text" th:field="*{firstname}" id="firstName"
+                class="form-control">
+        <div th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}">Firstname error</div>
+    </div>
+    <div>
+        <label for="lastname" class="form-label">Enter lastname:</label>
+        <input type="text" th:field="*{lastname}" id="lastname"
+                class="form-control">
+        <div th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}">Lastname error</div>
+    </div>
+    <div>
+        <label for="patronymic" class="form-label">Enter patronymic:</label>
+        <input type="text" th:field="*{patronymic}" id="patronymic"
+                class="form-control">
+        <div th:if="${#fields.hasErrors('patronymic')}" th:errors="*{patronymic}">Patronymic error</div>
+    </div>
+      <br>
+    <button type="submit">Save</button>
+    <button type="reset">Reset</button>
+    <button type="button" onclick="goBack()">Back</button>
+</form>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</body>
+</html>

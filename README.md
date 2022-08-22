@@ -10,7 +10,8 @@
 6. Creating tables: ./gradlew createSql
 7. To run the project: run 'Application.class'
 8. Link to go to Application Swagger documentation: http://localhost:8080/swagger-ui-custom.html
-9. To stop the Application:
+9. Link to go to Application UI: http://localhost:8080/users/all
+10. To stop the Application:
   - [Ctrl] + [C] 
   - Y
   - ./gradlew --stop

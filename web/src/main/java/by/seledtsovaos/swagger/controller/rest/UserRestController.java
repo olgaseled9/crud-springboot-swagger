@@ -2,6 +2,8 @@ package by.seledtsovaos.swagger.controller.rest;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,12 +27,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 /**
- *
+ * Handles requests to do CRUD operation with {@link UserDto}.
  */
 @RestController
 @RequestMapping("/api")
 public class UserRestController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserRestController.class);
     private final UserServiceImpl userService;
 
     @Autowired
@@ -64,10 +67,12 @@ public class UserRestController {
             content = @Content)})
     public ResponseEntity<Void> add(@RequestBody UserDto userDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
+            LOGGER.error("Cannot add a new user.");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         else {
             userService.create(userDto);
+            LOGGER.error("Successfully added a new user.");
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
     }
@@ -101,7 +106,6 @@ public class UserRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
     @PutMapping("update/{id}")
     @Operation(summary = "Update a user by its id.")
     @ApiResponses(value = {
@@ -112,9 +116,18 @@ public class UserRestController {
             content = @Content),
         @ApiResponse(responseCode = "404", description = "User not updated",
             content = @Content)})
-    public ResponseEntity<UserDto> update(
-        @PathVariable Long id,
-        @RequestBody UserDto userDto) {
-        return ResponseEntity.ok(userService.update(id, userDto));
+    public ResponseEntity<Void> updateUser(@RequestBody UserDto newUser, @PathVariable Long id, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            LOGGER.error("Cannot update a user.");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        else {
+            UserDto userDtoToUpdate = userService.findById(id);
+            userDtoToUpdate.setFirstname(newUser.getFirstname());
+            userDtoToUpdate.setLastname(newUser.getLastname());
+            userDtoToUpdate.setPatronymic(newUser.getPatronymic());
+            userService.create(userDtoToUpdate);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
     }
 }

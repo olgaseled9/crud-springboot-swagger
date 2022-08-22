@@ -3,6 +3,8 @@ package by.seledtsovaos.swagger.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ import by.seledtsovaos.swagger.service.UserService;
 @Transactional
 public class UserServiceImpl implements UserService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -43,14 +46,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto update(Long id, UserDto userDto) {
-        return null;
-    }
-
-    @Override
     public void deleteById(Long id) {
         try {
             userRepository.deleteById(id);
+            LOGGER.info("User is successfully deleted with id = " + id);
         }
         catch (DataAccessException e) {
             throw new ServiceException("Cannot be removed user with id = " + id, e);
@@ -61,6 +60,7 @@ public class UserServiceImpl implements UserService {
     public void create(UserDto userDto) {
         try {
             userRepository.save(userMapper.mapToEntity(userDto));
+            LOGGER.info("User is successfully created : " + userDto);
         }
         catch (DataAccessException e) {
             throw new ServiceException("Not able to add new user : " + userDto, e);

@@ -2,6 +2,7 @@ package by.seledtsovaos.swagger.dto;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -10,17 +11,20 @@ import javax.validation.constraints.Size;
  */
 public class UserDto {
 
-    @NotNull
-    @NotEmpty
     private Long id;
     @NotNull
+    @NotEmpty
     @Size(min = 1, max = 30)
+    @Pattern(regexp = "[A-Za-zА-Яа-яЁё\\s-]*", message = "Only the Latin and Russian alphabet must be used")
     private String firstname;
     @NotEmpty
     @Size(min = 1, max = 30)
+    @Pattern(regexp = "[A-Za-zА-Яа-яЁё\\s-]*", message = "Only the Latin and Russian alphabet must be used")
     private String lastname;
     @NotEmpty
+    @NotNull
     @Size(min = 1, max = 30)
+    @Pattern(regexp = "[A-Za-zА-Яа-яЁё\\s-]*", message = "Only the Latin and Russian alphabet must be used")
     private String patronymic;
 
     public UserDto() {
@@ -56,6 +60,17 @@ public class UserDto {
 
     public void setPatronymic(String patronymic) {
         this.patronymic = patronymic;
+    }
+
+    /**
+     * Checks that a string does not contain only spaces.
+     * @param userDto object whose fields are being checked
+     * @return true if at least one non-whitespace character is contained
+     */
+    public static boolean notEmptyString(UserDto userDto) {
+        return !userDto.getFirstname().trim().isEmpty()
+            && !userDto.getLastname().trim().isEmpty()
+            && !userDto.getPatronymic().trim().isEmpty();
     }
 
     @Override

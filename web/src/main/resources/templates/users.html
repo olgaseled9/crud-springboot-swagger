@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Users</title>
+    <link th:href="@{/bootstrap.css}" rel="stylesheet">
+</head>
+<body>
+<h2>List of users</h2>
+<hr>
+<table>
+    <thead>
+    <a th:href="@{/users/update}"><span>Add</span></a>
+    <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Patronymic</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--/*@thymesVar id="users" type="by.seledtsovaos.swagger.dto.UserDto"*/-->
+    <tr th:each="user:${users}">
+        <td th:text="${user.getFirstname()}"></td>
+        <td th:text="${user.getLastname()}"></td>
+        <td th:text="${user.getPatronymic}"></td>
+        <td>
+            <a th:href="@{/users/update/(id=${user.id})}"><span>Edit</span></a>
+        </td>
+        <td>
+            <a th:href="@{/users/remove/(id=${user.id})}"><span>Delete</span></a>
+        </td>
+</table>
+<hr>
+</body>
+</html>
