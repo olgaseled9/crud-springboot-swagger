@@ -26,7 +26,10 @@
 - Swagger
 - Apache Tomcat
 
-
+## Screenshots
+![swagger-ui](./img/swagger.jpg)
+![edit user](./img/edit.jpg)
+![users](./img/users.jpg)
 
 
 
